@@ -1,6 +1,8 @@
 #include <iostream>
 #include "movimientos.h"
-// #include "analisis.h"
+#include "elementos.h"
+#include "analisis.h"
+#include "robot.h"
 #include <string.h>
 #include <string>
 #include <cstdlib>
@@ -8,6 +10,7 @@
 #include <fstream>
 #include <iomanip>
 #include <stdlib.h>
+#include <iterator>
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +22,12 @@ int main(int argc, char *argv[])
     }
     // Declaracion de arreglos y variables
 
+    std::vector<Movimiento> vector_mov;
+    std::vector<Movimiento>::iterator It;
+    std::vector<Elemento> vector_ele;
+
+    std::vector<Analisis> vector_ana;
+
     const char *ArNA[] = {"ayuda", "cargar_comandos", "cargar_elementos", "agregar_movimiento", "agregar_analisis", "agregar_elemento", "guardar", "simular_comandos", "salir", "ubicar_elementos", "en_cuadrante", "crear_mapa", "ruta_mas_larga"};
     bool *Comp = new bool;
     *Comp = false;
@@ -27,7 +36,7 @@ int main(int argc, char *argv[])
 
     std::cout << std::endl;
     std::cout << std::endl;
-    std::cout << "                     ROVER DE MARTE         " << std::endl;
+    std::cout << "                     ROVER DE MARTE               " << std::endl;
     std::cout << std::endl;
     std::cout << "Para consultar los comandos del sistema ingrese el comando 'ayuda'" << std::endl;
     std::cout << "Para consultar el funcionamiento de un comando ingrese 'ayuda nombre_comando'" << std::endl;
@@ -122,11 +131,11 @@ int main(int argc, char *argv[])
                     std::cout << "Agrega el comando de movimiento descrito a la lista de comandos del robot “Curiosity " << std::endl;
                 }
                 case 3:
-                    __k8__
-                    {
-                        std::cout << "El comando envolvente con parametro calcula la caja envolvente de dicho objeto ubicado en la memoria " << std::endl;
-                    }
-                    break;
+
+                {
+                    std::cout << "El comando envolvente con parametro calcula la caja envolvente de dicho objeto ubicado en la memoria " << std::endl;
+                }
+                break;
                 case 4:
                 {
                     std::cout << "Agrega el comando de análisis descrito a la lista de comandos del robot “Curiosity” " << std::endl;
@@ -191,9 +200,8 @@ int main(int argc, char *argv[])
             }
             else
             {
-
                 std::ifstream Lect;
-                Movimientos M;
+                Movimiento M;
                 // Abrir archivo y comprobar si existe
                 Lect.open(DComand[1], std::ios::in);
                 if (!Lect)
@@ -206,49 +214,377 @@ int main(int argc, char *argv[])
                 if (Apertura != false)
                 {
                     // Leer y establecer nombre y numero de vertices en el Mesh
+                    ifstream Lect("movimientos.txt");
 
-                    vector<Movimiento> vector_mov;
-                    string tipo_mov, unidad_med;
-                    int magnitud;
-
-                    while (Lect >> tipo_mov >> magnitud >> unidad_med)
+                    // Read from the file until the end of the file is reached
+                    while (!Lect.eof())
                     {
-                        Movimiento m(tipo_mov, magnitud, unidad_med);
-                        vector_mov.push_back(m);
-                    }
-                    file.close();
-                    cout << vector_mov.size() << " movimientos han sido cargados exitosamente" << endl;
-                }
+                        // Extract the three parameters using the dot operator
+                        string mov, uni;
+                        int mag;
+                        Lect >> mov >> mag >> uni;
 
+                        // Create a new Person struct and assign values to its members using the dot operator
+                        Movimiento M;
+                        M.tipo_mov = mov;
+                        M.magnitud = mag;
+                        M.unidad_med = uni;
+
+                        // Add the new struct to the vector
+                        vector_mov.push_back(M);
+                    }
+
+                    // Print out the contents of the vector
+                    cout << "Movimiento(s) han sido cargados exitosamente" << endl;
+                }
                 Lect.close();
             }
         }
-
         break;
+
         case 2:
         {
+            bool Apertura = true;
+            if (*Contador != 2)
+            {
+                std::cout << "Ejecucion Incorrecta" << std::endl;
+            }
+            else
+            {
+                std::ifstream Lect2;
+                Elemento E;
+                // Abrir archivo y comprobar si existe
+                Lect2.open(DComand[1], std::ios::in);
+                if (!Lect2)
+                {
+                    std::cout << "\n"
+                              << DComand[1] << " no se encuentra o no puede leerse" << std::endl;
+                    system("Pause");
+                    Apertura = false;
+                }
+                if (Apertura != false)
+                {
+                    // Leer y establecer nombre y numero de vertices en el Mesh
+                    ifstream Lect2("elementos.txt");
+
+                    // Read from the file until the end of the file is reached
+                    while (!Lect2.eof())
+                    {
+                        // Extract the three parameters using the dot operator
+                        string comp, uni;
+                        int CX, CY;
+                        double tam;
+                        Lect2 >> comp >> tam >> uni >> CY >> CY;
+
+                        // Create a new Person struct and assign values to its members using the dot operator
+                        Elemento E;
+                        E.tipo_comp = comp;
+                        E.tamano = tam;
+                        E.unidad_med = uni;
+                        E.coordx = CX;
+                        E.coordy = CY;
+
+                        // Add the new struct to the vector
+                        vector_ele.push_back(E);
+                    }
+
+                    // Print out the contents of the vector
+                    cout << "Elemento(s) han sido cargados exitosamente" << endl;
+                }
+                Lect2.close();
+            }
         }
         break;
+
         case 3:
         {
+            if (*Contador < 4 || *Contador > 4)
+            {
+                std::cout << "Ejecucion Incorrecta" << std::endl;
+            }
+            else
+            {
+                int magnitud;
+
+                std::string tipo(DComand[1]);
+                magnitud = std::atoi(DComand[2]);
+                std::string uni(DComand[3]);
+
+                vector_mov.push_back(agregar_movimiento(tipo, magnitud, uni));
+            }
         }
         break;
+
         case 4:
         {
+            char *comentario;
+            std::string tipo(DComand[1]);
+            std::string objeto(DComand[2]);
+            strcpy(DComand[3], comentario);
+
+            vector_ana.push_back(agregar_analisis(tipo, objeto, comentario));
         }
         break;
+
         case 5:
         {
+            std::string tipo(DComand[1]);
+            double d = std::stod(DComand[2]);
+            std::string unidad(DComand[3]);
+            int x = std::atoi(DComand[4]);
+            int y = std::atoi(DComand[5]);
+
+            vector_ele.push_back(agregar_elementos(tipo, d, unidad, x, y));
         }
         break;
+
         case 6:
         {
+            int opcion;
+            std::ofstream archivo;
+            std::cout << "Seleccione el vector a guardar:\n";
+            std::cout << "1. Vector de movimiento\n";
+            std::cout << "2. Vector de analisis\n";
+            std::cout << "3. Vector de elementos\n";
+            std::cin >> opcion;
+
+            switch (opcion)
+            {
+            case 1:
+
+                archivo.open("movimientos.txt");
+                if (!archivo)
+                {
+                    std::cerr << "No se pudo abrir el archivo "
+                              << "movimientos.txt"
+                              << " para escritura\n";
+                    system("Pause");
+                }
+                for (const auto &Movimiento : vector_mov)
+                {
+                    archivo << Movimiento.tipo_mov << " " << Movimiento.magnitud << " " << Movimiento.unidad_med << "\n";
+                }
+                archivo.close();
+                std::cout << "Vector guardado exitosamente en "
+                          << "movimientos.txt"
+                          << "\n";
+                break;
+            case 2:
+                archivo.open("elementos.txt");
+                if (!archivo)
+                {
+                    std::cerr << "No se pudo abrir el archivo "
+                              << "elementos.txt"
+                              << " para escritura\n";
+                    system("Pause");
+                }
+                for (const auto &Elemento : vector_ele)
+                {
+                    archivo << Elemento.tipo_comp << " " << Elemento.tamano << " " << Elemento.unidad_med << Elemento.coordx << Elemento.coordy << "\n";
+                }
+                archivo.close();
+                std::cout << "Vector guardado exitosamente en "
+                          << "elementos.txt"
+                          << "\n";
+                break;
+            case 3:
+                archivo.open("analisis.txt");
+                if (!archivo)
+                {
+                    std::cerr << "No se pudo abrir el archivo "
+                              << "analisis.txt"
+                              << " para escritura\n";
+                    system("Pause");
+                }
+                for (const auto &Analisis : vector_ana)
+                {
+                    archivo << Analisis.tipo << " " << Analisis.objeto << " " << Analisis.comentario << "\n";
+                }
+                archivo.close();
+                std::cout << "Vector guardado exitosamente en "
+                          << "analisis.txt"
+                          << "\n";
+                break;
+            default:
+                std::cerr << "Opción no válida\n";
+                break;
+            }
+            break;
         }
-        break;
         case 7:
         {
+            Robot R;
+
+            int CX = std::atoi(DComand[1]);
+            int CY = std::atoi(DComand[2]);
+
+            int height, length;
+            cout << "De que alto desea el mapa?: ";
+            cin >> height;
+            cout << "De que ancho desea el mapa?: ";
+            cin >> length;
+            // Create a list of lists initialized with 0s
+            list<list<int>> matrix(height, list<int>(length, 0));
+
+            auto fila_it = matrix.begin();
+            for (int i = 0; i < CX; i++)
+            {
+                fila_it++;
+            }
+
+            auto col_it = fila_it->begin();
+            for (int i = 0; i < CY; i++)
+            {
+                col_it++;
+            }
+
+            *col_it = 1;
+            // Print the matrix
+            for (auto fila : matrix)
+            {
+                for (auto elem : fila)
+                {
+                    cout << elem << "\t";
+                }
+                cout << endl;
+            }
+
+            auto ix = matrix.begin();
+            int cont=0;
+
+            for (int i = 0; i < vector_mov.size(); i++)
+            {
+                if (vector_mov[i].getTipo_mov() == "avanzar")
+                {
+                    switch (R.getDireccion())
+                    {
+                    case 0:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix++;
+                        }
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont; i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 45:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix++;
+                        }
+                        R.setY(cont + vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 90:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 135:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix--;
+                        }
+                        R.setY(cont + vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 180:
+                    {
+                        R.setX(R.getX() - vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix--;
+                        }
+                        auto iy = ix->begin();
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 225:
+                    {
+                        R.setX(R.getX() - vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix--;
+                        }
+                        R.setY(cont - vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 270:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    case 315:
+                    {
+                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
+                        {
+                            ix++;
+                        }
+                        R.setY(cont - vector_mov[i].getMagnitud());
+                        auto iy = ix->begin();
+                        for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
+                        {
+                            iy++;
+                        }
+                        cout << R.getX() << " x," << R.getY() << " y\n";
+                        break;
+                    }
+                    default:
+                        break;
+                    }
+                }s
+                if (vector_mov[i].getTipo_mov() == "girar"){
+
+                }
+            }
         }
         break;
+
         case 8:
         {
             *Comp = true;
@@ -256,14 +592,17 @@ int main(int argc, char *argv[])
             std::cout << "Salida Correcta del Sistema" << std::endl;
         }
         break;
+
         case 9:
         {
         }
         break;
+
         case 10:
         {
         }
         break;
+
         case 12:
         {
         }

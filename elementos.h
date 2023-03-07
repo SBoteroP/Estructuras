@@ -7,30 +7,32 @@
 
 using namespace std;
 
-class Elemento
+struct Elemento
 {
-protected:
+
     string tipo_comp;
-    double tamano = 0;
+    double tamano;
     string unidad_med;
     int coordx;
     int coordy;
 
-public:
-    Elemento(string tipo, double tam, string unidad, int x, int y);
     string getTipo_comp();
-    double geTamano();
-    string getUnidad();
-    int getCoordx();
-    int getCoordy();
     void setTipo_comp(string nTipo);
-    void setTamano(string nTam);
+
+    double getTamano();
+    void setTamano(double nTam);
+
+    string getUnidad();
     void setUnidad(string nUnidad);
+
+    int getCoordx();
     void setCoordx(int nX);
+
+    int getCoordy();
     void setCoordy(int nY);
+
     void agregar_elementos(string tipo, double tam, string unidad, int x, int y);
-    void cargar_elementos();
 };
 
-#include "Elementos.hxx"
+#include "elementos.hxx"
 #endif

@@ -1,42 +1,67 @@
 #ifndef __MOVIMIENTOS__HXX__
 #define __MOVIMIENTOS__HXX__
 
+#include <vector>
+#include <iostream>
 
 //----------------------------------------------------------------------------
-int Movimiento::getTipo_mov()
+string Movimiento::getTipo_mov()
 {
-	return(Tipo_mov);
+	return (tipo_mov);
 }
 //----------------------------------------------------------------------------
-void Movimiento::setTipo_mov(string tipo_mov)
+void Movimiento::setTipo_mov(string ntipo)
 {
-	tipo_mov = tipo_mov;
+	tipo_mov = ntipo;
 }
 //----------------------------------------------------------------------------
-int Magnitud::geMagnitud()
+int Movimiento::getMagnitud()
 {
-	return(Magnitud);
+	return (magnitud);
 }
 //------------    ----------------------------------------------------------------
-void Magnitud::setMagnitud(int magnitud)
+void Movimiento::setMagnitud(int nMag)
 {
-	magnitud = magnitud;
+	magnitud = nMag;
 }
 //----------------------------------------------------------------------------
-int Unidad::getUnidad()
+string Movimiento::getUnidad()
 {
-	return(Unidad);
+	return (unidad_med);
 }
 //----------------------------------------------------------------------------
-void Unidad::setUnidad(int Punto)
+void Movimiento::setUnidad(string nUnidad)
 {
-	Unidad = Unidad;
+	unidad_med = unidad_med;
 }
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
- void agregar_movimiento(string tipo,double magnitud,string unidad);
-{
-	PuntoR3 = Punto;
-}
 
+Movimiento agregar_movimiento(string tipo, int magnitud, string uni)
+{
+	while (tipo != "avanzar" && tipo != "girar")
+	{
+		std::cout << "El valor de 'tipo' debe ser 'avanzar' o 'girar'" << std::endl;
+	}
+
+	while (tipo == "girar" && magnitud % 45 != 0)
+	{
+		std::cout << "El valor de 'magnitud' debe ser múltiplo de 45 si 'tipo' es 'girar'" << std::endl;
+	}
+
+	while ((tipo == "girar" && uni != "grados") || (tipo == "avanzar" && uni != "unidades"))
+	{
+		std::cout << "El valor de 'uni' debe ser 'grados' si 'tipo' es 'girar' o 'unidades' si 'tipo' es 'avanzar'" << std::endl;
+	}
+
+	// Store the input values if everything is correct
+	cout << "NUEVO MOVIMIENTO GUARDADO CON EXITO" << endl;
+
+	Movimiento NM;
+	NM.setMagnitud(magnitud);
+	NM.setTipo_mov(tipo);
+	NM.setUnidad(uni);
+
+	return NM;
+}
 #endif

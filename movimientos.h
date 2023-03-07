@@ -7,22 +7,19 @@
 
 using namespace std;
 
-class Movimiento
+struct Movimiento
 {
-protected:
     string tipo_mov;
     int magnitud;
     string unidad_med;
-    
-public: 
-    Movimiento(string tipo,int magnitud, string unidad);
-    string getTipo_mov();  
-    string getUnidad();  
-    int geMagnitud();
+
+    string getTipo_mov();
+    string getUnidad();
+    int getMagnitud();
     void setTipo_mov(string nTipo);
-    void setMagnitud(string nMag);
-    void setUnidad(string nUnidad);  
-    void agregar_movimiento(string tipo,double magnitud,string unidad);
+    void setMagnitud(int nMag);
+    void setUnidad(string nUnidad);
+    Movimiento agregar_movimiento(string tipo, int magnitud, string uni);
 };
 
 #include "movimientos.hxx"

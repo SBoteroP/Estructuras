@@ -7,23 +7,20 @@
 
 using namespace std;
 
-class analisis
+struct Analisis
 {
-protected:
     string tipo;
     string objeto;
     string comentario;
 
-public:
-    analisis(string tipo, string objeto, string comentario);
-    string getTipo();
-    string geObjeto();
-    string getCom();
+    string getTipo();   
     void setTipo(string nTipo);
+    string getObjeto();
     void setObjeto(string nObjeto);
+    string getCom();
     void setCom(string nCom);
-    void agregar_analisis(string tipo, string objeto, string comentario);
+    Analisis agregar_analisis(string tipo, string objeto, char* comentario);
 };
 
-#include "Analisis.hxx"
+#include "analisis.hxx"
 #endif
