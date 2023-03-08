@@ -23,9 +23,7 @@ int main(int argc, char *argv[])
     // Declaracion de arreglos y variables
 
     std::vector<Movimiento> vector_mov;
-    std::vector<Movimiento>::iterator It;
     std::vector<Elemento> vector_ele;
-
     std::vector<Analisis> vector_ana;
 
     const char *ArNA[] = {"ayuda", "cargar_comandos", "cargar_elementos", "agregar_movimiento", "agregar_analisis", "agregar_elemento", "guardar", "simular_comandos", "salir", "ubicar_elementos", "en_cuadrante", "crear_mapa", "ruta_mas_larga"};
@@ -577,9 +575,9 @@ int main(int argc, char *argv[])
                     default:
                         break;
                     }
-                }s
+                }
                 if (vector_mov[i].getTipo_mov() == "girar"){
-
+                  R.setDireccion(vector_mov[i].getMagnitud());
                 }
             }
         }
