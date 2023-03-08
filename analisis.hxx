@@ -41,7 +41,7 @@ void Analisis::setCom(string nCom)
 
 //----------------------------------------------------------------------------
 
-Analisis agregar_analisis(string tipo, string objeto, char *comentario)
+Analisis agregar_analisis(string tipo, string objeto, string comentario)
 {
 	/*
 		char* start = strchr(iString, '\''); // find first occurrence of '
@@ -61,9 +61,16 @@ Analisis agregar_analisis(string tipo, string objeto, char *comentario)
 		strncpy(oString, start, length); // copy substring to output string
 		oString[length] = '\0'; // add null terminator to end of output string
 	*/
-	while (tipo != "fotografiar" && tipo != "composicion" && tipo != "perforar")
+	while (objeto != "roca" && objeto != "monticulo" && objeto != "duna" && objeto != "crater")
+	{
+		std::cout << "El tipo de objeto no es válido." << std::endl;
+		system("Pause");
+	}
+
+	if (tipo != "fotografiar" && tipo != "composicion" && tipo != "perforar")
 	{
 		std::cout << "Error: tipo de análisis inválido" << std::endl;
+		system("Pause");
 	}
 	/*
 		while (comentario[0] != '\'' || comentario[strlen(comentario) - 1] != '\'')

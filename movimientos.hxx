@@ -39,19 +39,22 @@ void Movimiento::setUnidad(string nUnidad)
 
 Movimiento agregar_movimiento(string tipo, int magnitud, string uni)
 {
-	while (tipo != "avanzar" && tipo != "girar")
+	if (tipo != "avanzar" && tipo != "girar")
 	{
 		std::cout << "El valor de 'tipo' debe ser 'avanzar' o 'girar'" << std::endl;
+		system("Pause");
 	}
 
-	while (tipo == "girar" && magnitud % 45 != 0)
+	if (tipo == "girar" && magnitud % 45 != 0)
 	{
 		std::cout << "El valor de 'magnitud' debe ser múltiplo de 45 si 'tipo' es 'girar'" << std::endl;
+		system("Pause");
 	}
 
-	while ((tipo == "girar" && uni != "grados") || (tipo == "avanzar" && uni != "unidades"))
+	if (uni != "grados" && uni != "unidades")
 	{
 		std::cout << "El valor de 'uni' debe ser 'grados' si 'tipo' es 'girar' o 'unidades' si 'tipo' es 'avanzar'" << std::endl;
+		system("Pause");
 	}
 
 	// Store the input values if everything is correct

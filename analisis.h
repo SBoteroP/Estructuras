@@ -19,7 +19,7 @@ struct Analisis
     void setObjeto(string nObjeto);
     string getCom();
     void setCom(string nCom);
-    Analisis agregar_analisis(string tipo, string objeto, char* comentario);
+    Analisis agregar_analisis(string tipo, string objeto, string comentario);
 };
 
 #include "analisis.hxx"

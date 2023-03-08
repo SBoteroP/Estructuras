@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
                 }
                 switch (*E)
                 {
-                    case 0:
+                case 0:
                 {
                     std::cout << "El comando 'ayuda' lista los comandos disponibles y sus llamados correctos " << std::endl;
                 }
@@ -133,47 +133,42 @@ int main(int argc, char *argv[])
                 {
                     std::cout << "Agrega el comando de movimiento descrito a la lista de comandos del robot “Curiosity " << std::endl;
                 }
-                case 4:
-
-                {
-                    std::cout << "El comando envolvente con parametro calcula la caja envolvente de dicho objeto ubicado en la memoria " << std::endl;
-                }
                 break;
-                case 5:
+                case 4:
                 {
                     std::cout << "Agrega el comando de análisis descrito a la lista de comandos del robot “Curiosity” " << std::endl;
                 }
                 break;
-                case 6:
+                case 5:
                 {
                     std::cout << "Agregar un elemento a la lista de elementos dentro del plano " << std::endl;
                 }
-                case 7:
+                case 6:
                 {
                     std::cout << "Guarda los valores que haya dentro de las listas de 'movimientos' , 'elementos' y 'analisis' " << std::endl;
                 }
                 break;
-                case 8:
+                case 7:
                 {
                     std::cout << "Permite simular el resultado de los comandos de movimiento que se enviarán al robot Curiosity desde la Tierra " << std::endl;
                 }
                 break;
-                case 9:
+                case 8:
                 {
                     std::cout << "'Salir' termina la ejecucion del programa" << std::endl;
                 }
                 break;
-                case 10:
+                case 9:
                 {
                     std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura de datos jerárquica adecuada, que permita luego realizar consultas geográficas sobre estos elementos" << std::endl;
                 }
                 break;
-                case 11:
+                case 10:
                 {
                     std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura no lineal y conectarlos entre sí teniendo en cuenta el coeficiente de conectividad dado" << std::endl;
                 }
                 break;
-                case 12:
+                case 11:
                 {
                     std::cout << "Con el mapa ya creado, el comando permite identificar los dos componentes más alejados entre sí de acuerdo a las conexiones generadas." << std::endl;
                 }
@@ -320,10 +315,10 @@ int main(int argc, char *argv[])
 
         case 4:
         {
-            char *comentario;
+          
             std::string tipo(DComand[1]);
             std::string objeto(DComand[2]);
-            strcpy(DComand[3], comentario);
+            std::string comentario(DComand[3]);
 
             vector_ana.push_back(agregar_analisis(tipo, objeto, comentario));
         }
@@ -354,44 +349,28 @@ int main(int argc, char *argv[])
             switch (opcion)
             {
             case 1:
-
-                archivo.open("movimientos.txt");
+                archivo.open("movimientos.txt", std::ofstream::trunc);
                 if (!archivo)
                 {
-                    std::cerr << "No se pudo abrir el archivo "
+                    std::cout << "No se pudo abrir el archivo "
                               << "movimientos.txt"
                               << " para escritura\n";
                     system("Pause");
                 }
+
                 for (const auto &Movimiento : vector_mov)
                 {
                     archivo << Movimiento.tipo_mov << " " << Movimiento.magnitud << " " << Movimiento.unidad_med << "\n";
+                    cout << Movimiento.tipo_mov << " " << Movimiento.magnitud << " " << Movimiento.unidad_med;
                 }
                 archivo.close();
                 std::cout << "Vector guardado exitosamente en "
                           << "movimientos.txt"
                           << "\n";
                 break;
+
             case 2:
-                archivo.open("elementos.txt");
-                if (!archivo)
-                {
-                    std::cerr << "No se pudo abrir el archivo "
-                              << "elementos.txt"
-                              << " para escritura\n";
-                    system("Pause");
-                }
-                for (const auto &Elemento : vector_ele)
-                {
-                    archivo << Elemento.tipo_comp << " " << Elemento.tamano << " " << Elemento.unidad_med << Elemento.coordx << Elemento.coordy << "\n";
-                }
-                archivo.close();
-                std::cout << "Vector guardado exitosamente en "
-                          << "elementos.txt"
-                          << "\n";
-                break;
-            case 3:
-                archivo.open("analisis.txt");
+                archivo.open("analisis.txt", std::ofstream::trunc);
                 if (!archivo)
                 {
                     std::cerr << "No se pudo abrir el archivo "
@@ -406,6 +385,24 @@ int main(int argc, char *argv[])
                 archivo.close();
                 std::cout << "Vector guardado exitosamente en "
                           << "analisis.txt"
+                          << "\n";
+                break;
+            case 3:
+                archivo.open("elementos.txt", std::ofstream::trunc);
+                if (!archivo)
+                {
+                    std::cerr << "No se pudo abrir el archivo "
+                              << "elementos.txt"
+                              << " para escritura\n";
+                    system("Pause");
+                }
+                for (const auto &Elemento : vector_ele)
+                {
+                    archivo << Elemento.tipo_comp << " " << Elemento.tamano << " " << Elemento.unidad_med << " " << Elemento.coordx << " " << Elemento.coordy << "\n";
+                }
+                archivo.close();
+                std::cout << "Vector guardado exitosamente en "
+                          << "elementos.txt"
                           << "\n";
                 break;
             default:
@@ -442,7 +439,7 @@ int main(int argc, char *argv[])
             }
 
             *col_it = 1;
-            // Print the matrix
+
             for (auto fila : matrix)
             {
                 for (auto elem : fila)
@@ -451,10 +448,9 @@ int main(int argc, char *argv[])
                 }
                 cout << endl;
             }
-
+            list<int> aux;
             auto ix = matrix.begin();
-            int cont=0;
-
+            int cont = 0;
             for (int i = 0; i < vector_mov.size(); i++)
             {
                 if (vector_mov[i].getTipo_mov() == "avanzar")
@@ -464,12 +460,20 @@ int main(int argc, char *argv[])
                     case 0:
                     {
                         R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        while (R.getX() > matrix.size())
+                        {
+                            matrix.push_back(aux);
+                        }
                         for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
                         {
                             ix++;
                         }
                         auto iy = ix->begin();
-                        for (int i = 0; i < cont; i++)
+                        while (R.getY() > ix->size())
+                        {
+                            ix->push_back(0);
+                        }
+                        for (int i = 0; i < R.getY(); i++)
                         {
                             iy++;
                         }
@@ -479,13 +483,21 @@ int main(int argc, char *argv[])
                     case 45:
                     {
                         R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        while (R.getX() > matrix.size())
+                        {
+                            matrix.push_back(aux);
+                        }
                         for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
                         {
                             ix++;
                         }
-                        R.setY(cont + vector_mov[i].getMagnitud());
+                        R.setY(R.getY() + vector_mov[i].getMagnitud());
+                        while (R.getY() > ix->size())
+                        {
+                            ix->push_back(0);
+                        }
                         auto iy = ix->begin();
-                        for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
+                        for (int i = 0; i < R.getY() + vector_mov[i].getMagnitud(); i++)
                         {
                             iy++;
                         }
@@ -494,9 +506,13 @@ int main(int argc, char *argv[])
                     }
                     case 90:
                     {
-                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        R.setY(R.getY() + vector_mov[i].getMagnitud());
+                        while (R.getY() > ix->size())
+                        {
+                            ix->push_back(0);
+                        }
                         auto iy = ix->begin();
-                        for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
+                        for (int i = 0; i < R.getY() + vector_mov[i].getMagnitud(); i++)
                         {
                             iy++;
                         }
@@ -505,12 +521,16 @@ int main(int argc, char *argv[])
                     }
                     case 135:
                     {
-                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        R.setX(R.getX() - vector_mov[i].getMagnitud());
                         for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
                         {
                             ix--;
                         }
                         R.setY(cont + vector_mov[i].getMagnitud());
+                        while (R.getY() > ix->size())
+                        {
+                            ix->push_back(0);
+                        }
                         auto iy = ix->begin();
                         for (int i = 0; i < cont + vector_mov[i].getMagnitud(); i++)
                         {
@@ -527,6 +547,10 @@ int main(int argc, char *argv[])
                             ix--;
                         }
                         auto iy = ix->begin();
+                        while (R.getY() > ix->size())
+                        {
+                            ix->push_back(0);
+                        }
                         for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
                         {
                             iy++;
@@ -545,18 +569,18 @@ int main(int argc, char *argv[])
                         auto iy = ix->begin();
                         for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
                         {
-                            iy++;
+                            iy--;
                         }
                         cout << R.getX() << " x," << R.getY() << " y\n";
                         break;
                     }
                     case 270:
                     {
-                        R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        R.setY(cont - vector_mov[i].getMagnitud());
                         auto iy = ix->begin();
                         for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
                         {
-                            iy++;
+                            iy--;
                         }
                         cout << R.getX() << " x," << R.getY() << " y\n";
                         break;
@@ -564,6 +588,10 @@ int main(int argc, char *argv[])
                     case 315:
                     {
                         R.setX(R.getX() + vector_mov[i].getMagnitud());
+                        while (R.getX() > matrix.size())
+                        {
+                            matrix.push_back(aux);
+                        }
                         for (int i = 0; i < vector_mov[i].getMagnitud(); i++)
                         {
                             ix++;
@@ -572,7 +600,7 @@ int main(int argc, char *argv[])
                         auto iy = ix->begin();
                         for (int i = 0; i < cont - vector_mov[i].getMagnitud(); i++)
                         {
-                            iy++;
+                            iy--;
                         }
                         cout << R.getX() << " x," << R.getY() << " y\n";
                         break;
@@ -581,8 +609,9 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
-                if (vector_mov[i].getTipo_mov() == "girar"){
-                  R.setDireccion(vector_mov[i].getMagnitud());
+                if (vector_mov[i].getTipo_mov() == "girar")
+                {
+                    R.setDireccion(vector_mov[i].getMagnitud());
                 }
             }
         }

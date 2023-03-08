@@ -1,6 +1,2 @@
-girar 90 grados
-avanzar 100 unidades
-avanzar 50 unidades
-avanzar 20 unidades
-girar 45 grados
-avanzar 10 unidades
+avanzar 5 
+girar 90 

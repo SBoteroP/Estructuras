@@ -18,6 +18,6 @@ struct Robot
     void setDireccion(int ndireccion);
     void moverRobot();
     
-}
+};
 #include "robot.hxx"
 #endif // ROBOT_H
