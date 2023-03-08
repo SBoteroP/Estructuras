@@ -1,2 +1,1 @@
-roca 2 unidades 0 3
-duna 2 unidades 2 1
+roca 3 unidades 3 3

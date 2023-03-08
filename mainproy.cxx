@@ -315,7 +315,7 @@ int main(int argc, char *argv[])
 
         case 4:
         {
-          
+
             std::string tipo(DComand[1]);
             std::string objeto(DComand[2]);
             std::string comentario(DComand[3]);
@@ -361,7 +361,6 @@ int main(int argc, char *argv[])
                 for (const auto &Movimiento : vector_mov)
                 {
                     archivo << Movimiento.tipo_mov << " " << Movimiento.magnitud << " " << Movimiento.unidad_med << "\n";
-                    cout << Movimiento.tipo_mov << " " << Movimiento.magnitud << " " << Movimiento.unidad_med;
                 }
                 archivo.close();
                 std::cout << "Vector guardado exitosamente en "
@@ -373,7 +372,7 @@ int main(int argc, char *argv[])
                 archivo.open("analisis.txt", std::ofstream::trunc);
                 if (!archivo)
                 {
-                    std::cerr << "No se pudo abrir el archivo "
+                    std::cout << "No se pudo abrir el archivo "
                               << "analisis.txt"
                               << " para escritura\n";
                     system("Pause");
@@ -391,7 +390,7 @@ int main(int argc, char *argv[])
                 archivo.open("elementos.txt", std::ofstream::trunc);
                 if (!archivo)
                 {
-                    std::cerr << "No se pudo abrir el archivo "
+                    std::cout << "No se pudo abrir el archivo "
                               << "elementos.txt"
                               << " para escritura\n";
                     system("Pause");
@@ -417,6 +416,9 @@ int main(int argc, char *argv[])
 
             int CX = std::atoi(DComand[1]);
             int CY = std::atoi(DComand[2]);
+
+            R.setX(CX);
+            R.setY(CY);
 
             int height, length;
             cout << "De que alto desea el mapa?: ";
@@ -614,6 +616,61 @@ int main(int argc, char *argv[])
                     R.setDireccion(vector_mov[i].getMagnitud());
                 }
             }
+
+            int EX = vector_ele[0].getCoordx();
+            int EY = vector_ele[0].getCoordy();
+
+            int EX2 = vector_ele[1].getCoordx();
+            int EY2 = vector_ele[1].getCoordy();
+
+            int EX3 = vector_ele[2].getCoordx();
+            int EY3 = vector_ele[2].getCoordy();
+
+            int ES = vector_ele[0].getTamano();
+            int ES2 = vector_ele[1].getTamano();
+            int ES3 = vector_ele[2].getTamano();
+
+            int start_i = max(0, EX);
+            int end_i = min(height - 1, EX + ES - 1);
+            int start_j = max(0, EY);
+            int end_j = min(length - 1, EY + ES - 1);
+
+            for (int i = 0; i < vector_ele.size(); i++)
+            {
+                auto itx = matrix.begin();
+                EX = vector_ele[i].getCoordx();
+                EY = vector_ele[i].getCoordy();
+
+                auto fila_it = matrix.begin(); // Iterator to traverse the rows of the matrix
+                for (int i = 0; i < start_i; i++)
+                {
+                    fila_it++; // Move the row iterator to the starting row index of the square
+                }
+
+                for (int i = start_i; i <= end_i; i++)
+                {
+                    auto col_it = fila_it->begin(); // Iterator to traverse the columns of the current row
+                    for (int j = 0; j < start_j; j++)
+                    {
+                        col_it++; // Move the column iterator to the starting column index of the square
+                    }
+                    for (int j = start_j; j <= end_j; j++)
+                    {
+                        *col_it = 2; // Set the current element to 1 to paint the square
+                        col_it++;    // Move to the next column
+                    }
+                    fila_it++; // Move to the next row
+                }
+            }
+            for (auto& fila : matrix)
+            {
+                for (auto& elem : fila)
+                {
+                    cout << elem << "\t";
+                }
+                cout << endl;
+            }
+            // M E  Q U I E R O  M O R I R
         }
         break;
 
@@ -644,11 +701,12 @@ int main(int argc, char *argv[])
         {
             std::cout << "El comando ingresado no se reconoce o no existe en el sistema" << std::endl;
         }
+
+            delete[] Comand;
+            delete Contador;
+            delete C;
+            delete E;
         }
-        delete[] Comand;
-        delete Contador;
-        delete C;
-        delete E;
     } while (*Comp != true);
 
     delete Comp;
