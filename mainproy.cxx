@@ -114,63 +114,68 @@ int main(int argc, char *argv[])
                 }
                 switch (*E)
                 {
-                case 0:
+                    case 0:
                 {
-                    std::cout << "Carga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo " << std::endl;
+                    std::cout << "El comando 'ayuda' lista los comandos disponibles y sus llamados correctos " << std::endl;
                 }
                 break;
                 case 1:
                 {
-                    std::cout << "Carga en memoria los datos de puntos de interés o elementos contenidos en el archivo identificado por nombre_archivo " << std::endl;
+                    std::cout << "Carga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo " << std::endl;
                 }
                 break;
                 case 2:
                 {
+                    std::cout << "Carga en memoria los datos de puntos de interés o elementos contenidos en el archivo identificado por nombre_archivo " << std::endl;
+                }
+                break;
+                case 3:
+                {
                     std::cout << "Agrega el comando de movimiento descrito a la lista de comandos del robot “Curiosity " << std::endl;
                 }
-                case 3:
+                case 4:
 
                 {
                     std::cout << "El comando envolvente con parametro calcula la caja envolvente de dicho objeto ubicado en la memoria " << std::endl;
                 }
                 break;
-                case 4:
+                case 5:
                 {
                     std::cout << "Agrega el comando de análisis descrito a la lista de comandos del robot “Curiosity” " << std::endl;
                 }
                 break;
-                case 5:
-                {
-                    std::cout << "Guarda en el archivo nombre_archivo la información solicitada de acuerdo al tipo de archivo " << std::endl;
-                }
                 case 6:
                 {
-                    std::cout << "Permite simular el resultado de los comandos de movimiento que se enviarán al robot Curiosity desde la Tierra " << std::endl;
+                    std::cout << "Agregar un elemento a la lista de elementos dentro del plano " << std::endl;
                 }
-                break;
                 case 7:
                 {
-                    std::cout << "El comando Ruta corta identifica los índices de los vértices que conforman la ruta más corta entre los vértices dados para el objeto seleccionado " << std::endl;
+                    std::cout << "Guarda los valores que haya dentro de las listas de 'movimientos' , 'elementos' y 'analisis' " << std::endl;
                 }
                 break;
                 case 8:
                 {
-                    std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura de datos jerárquica adecuada, que permita luego realizar consultas geográficas sobre estos elementos" << std::endl;
+                    std::cout << "Permite simular el resultado de los comandos de movimiento que se enviarán al robot Curiosity desde la Tierra " << std::endl;
                 }
                 break;
                 case 9:
                 {
-                    std::cout << "Permite utilizar la estructura creada con el comando anterior para retornar una lista de los componentes o elementos que están dentro del cuadrante geográfico descrito por los límites de co-ordenadas en x y y." << std::endl;
+                    std::cout << "'Salir' termina la ejecucion del programa" << std::endl;
                 }
                 break;
                 case 10:
                 {
-                    std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura no lineal y conectarlos entre sí teniendo en cuenta el coeficiente de conectividad dado." << std::endl;
+                    std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura de datos jerárquica adecuada, que permita luego realizar consultas geográficas sobre estos elementos" << std::endl;
                 }
                 break;
                 case 11:
                 {
-                    std::cout << "Con el mapa ya creado, el comando permite identificar los dos componentes más alejados entre sí de acuerdo a las conexiones generada" << std::endl;
+                    std::cout << "El comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una estructura no lineal y conectarlos entre sí teniendo en cuenta el coeficiente de conectividad dado" << std::endl;
+                }
+                break;
+                case 12:
+                {
+                    std::cout << "Con el mapa ya creado, el comando permite identificar los dos componentes más alejados entre sí de acuerdo a las conexiones generadas." << std::endl;
                 }
                 break;
 
